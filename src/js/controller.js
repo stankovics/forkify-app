@@ -1,9 +1,9 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-import { render } from "sass";
-import icons from "url:../img/icons.svg";
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+import { render } from 'sass';
+import icons from 'url:../img/icons.svg';
 
-const recipeContainer = document.querySelector(".recipe");
+const recipeContainer = document.querySelector('.recipe');
 
 const timeout = function (s) {
   return new Promise(function (_, reject) {
@@ -20,15 +20,18 @@ const renderSpiner = function (parentEl) {
       </svg>
     </div>
 `;
-  parentEl.innerHTML = "";
-  parentEl.insertAdjacentHTML("afterbegin", markup);
+  parentEl.innerHTML = '';
+  parentEl.insertAdjacentHTML('afterbegin', markup);
 };
 const showRecipe = async function () {
   try {
+    const id = window.location.hash.slice(1);
+    if (!id) return;
+
     // 1) Loading recipe
     renderSpiner(recipeContainer);
     const res = await fetch(
-      "https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886"
+      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
 
       // " https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bcc7e"
     );
@@ -107,7 +110,7 @@ const showRecipe = async function () {
           <h2 class="heading--2">Recipe ingredients</h2>
           <class="recipe__ingredient-list">
           ${recipe.ingredients
-            .map((ing) => {
+            .map(ing => {
               return `
             <li class="recipe__ingredient">
             <svg class="recipe__icon">
@@ -121,7 +124,7 @@ const showRecipe = async function () {
           </li>
             `;
             })
-            .join("")}
+            .join('')}
         </div>
 
         <div class="recipe__directions">
@@ -145,10 +148,10 @@ const showRecipe = async function () {
           </a>
         </div>
     `;
-    recipeContainer.innerHTML = "";
-    recipeContainer.insertAdjacentHTML("afterbegin", markup);
+    recipeContainer.innerHTML = '';
+    recipeContainer.insertAdjacentHTML('afterbegin', markup);
   } catch (err) {
     alert(err);
   }
 };
-showRecipe();
+['hashchange', 'load'].forEach(ev => window.addEventListener(ev, showRecipe));
