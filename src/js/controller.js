@@ -4,14 +4,6 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { render } from 'sass';
 
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} seconds.`));
-    }, s * 1000);
-  });
-};
-
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
@@ -27,7 +19,7 @@ const controlRecipes = async function () {
     alert(err);
   }
 };
-['hashchange', 'load'].forEach(ev =>
-  window.addEventListener(ev, controlRecipes)
-);
-console.log('test');
+const init = function () {
+  recipeView.addHandlerRender(controlRecipes);
+};
+init();
