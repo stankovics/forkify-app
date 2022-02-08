@@ -23,4 +23,4 @@ const init = function () {
   recipeView.addHandlerRender(controlRecipes);
 };
 init();
-console.log('testing push 2');
+console.log('testing push 3');
