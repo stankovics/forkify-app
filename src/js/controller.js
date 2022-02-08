@@ -30,4 +30,4 @@ const controlRecipes = async function () {
 ['hashchange', 'load'].forEach(ev =>
   window.addEventListener(ev, controlRecipes)
 );
-console.log('test1');
+console.log('test');
