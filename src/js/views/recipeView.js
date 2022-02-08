@@ -25,6 +25,34 @@ class RecipeView {
     this.#parentElement.innerHTML = '';
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   };
+  renderError(message = this._errorMessage) {
+    const markup = `
+        <div class="message">
+                <div>
+                  <svg>
+                    <use href="src/img/${icons}#icon-smile-triangle"></use>
+                  </svg>
+                </div>
+                <p>${message}</p>
+              </div>us
+        `;
+    this._clear();
+    this._parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+  renderMessage(message = this._message) {
+    const markup = `
+        <div class="error">
+                <div>
+                  <svg>
+                    <use href="src/img/${icons}#icon-alert-triangle"></use>
+                  </svg>
+                </div>
+                <p>${message}</p>
+              </div>
+        `;
+    this._clear();
+    this._parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
 
   addHandlerRender(handler) {
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
