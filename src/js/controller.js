@@ -41,4 +41,4 @@ const init = function () {
   searchView.addHandlerSearch(controlSearchResults);
 };
 init();
-console.log('testing');
+console.log('testing1');
