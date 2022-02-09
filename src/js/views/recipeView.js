@@ -1,58 +1,10 @@
+import View from './View';
 import icons from 'url:../../img/icons.svg';
 import fracty from 'fracty'; //  ---> converts 0.5 to 1/2
-class RecipeView {
-  #parentElement = document.querySelector('.recipe');
-  _data;
-
-  render(data) {
-    this._data = data;
-    const markup = this._generateMarkup();
-    this.#clear();
-    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
-  }
-
-  #clear() {
-    this.#parentElement.innerHTML = '';
-  }
-  renderSpiner = function () {
-    const markup = `
-      <div class="spinner">
-        <svg>
-            <use href="${icons}#icon-loader"></use>
-        </svg>
-      </div>
-  `;
-    this.#parentElement.innerHTML = '';
-    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
-  };
-  renderError(message = this._errorMessage) {
-    const markup = `
-        <div class="message">
-                <div>
-                  <svg>
-                    <use href="src/img/${icons}#icon-smile-triangle"></use>
-                  </svg>
-                </div>
-                <p>${message}</p>
-              </div>us
-        `;
-    this._clear();
-    this._parentElement.insertAdjacentHTML('afterbegin', markup);
-  }
-  renderMessage(message = this._message) {
-    const markup = `
-        <div class="error">
-                <div>
-                  <svg>
-                    <use href="src/img/${icons}#icon-alert-triangle"></use>
-                  </svg>
-                </div>
-                <p>${message}</p>
-              </div>
-        `;
-    this._clear();
-    this._parentElement.insertAdjacentHTML('afterbegin', markup);
-  }
+class RecipeView extends View {
+  _parentElement = document.querySelector('.recipe');
+  _errorMessage = 'We could not find that recipe. Pleasy try another one!';
+  _message = '';
 
   addHandlerRender(handler) {
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
@@ -106,10 +58,8 @@ class RecipeView {
           </div>
         </div>
 
-        <div class="preview__user-generated ${this._data.key ? '' : 'hidden'}">
-        <svg>
-          <use href="${icons}#icon-user"></use>
-        </svg>
+      <div class="preview__user-generated">
+        
       </div>
         <button class="btn--round btn--bookmark">
           <svg class="">
