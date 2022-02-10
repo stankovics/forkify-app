@@ -42,9 +42,13 @@ const controlSearchResults = async function () {
     console.log(err);
   }
 };
+const controlPagination = function () {
+  console.log('Pagination controller');
+};
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination);
 };
 init();
