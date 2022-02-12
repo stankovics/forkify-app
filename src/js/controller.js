@@ -25,25 +25,26 @@ const controlRecipes = async function () {
 };
 const controlSearchResults = async function () {
   try {
-    resultsView.renderSpiner();
-    // Get search query
+    resultsView.renderSpinner();
+
+    // 1 get search query
     const query = searchView.getQuery();
     if (!query) return;
-
-    // load search
+    // 2 load search results
     await model.loadSearchResults(query);
-    // Render results
-
+    // 3 render results
     resultsView.render(model.getSearchResultsPage());
-
-    // Render initial pagination buttons
+    //4 render initial pagination buttons
     paginationView.render(model.state.search);
   } catch (err) {
     console.log(err);
   }
 };
-const controlPagination = function () {
-  console.log('Pagination controller');
+const controlPagination = function (goToPage) {
+  // 1) Render NEW results
+  resultsView.render(model.getSearchResultsPage(goToPage));
+  // 2) Render NEW pagination buttons
+  paginationView.render(model.state.search);
 };
 
 const init = function () {
