@@ -1,21 +1,41 @@
-import View from './View';
-import icons from 'url:../../img/icons.svg';
+import View from './View.js';
+import icons from 'url:../../img/icons.svg'; // importing icons from img/icons.svg without this line of code parcel is using icons from dist folder.
 import fracty from 'fracty'; //  ---> converts 0.5 to 1/2
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
-  _errorMessage = 'We could not find that recipe. Pleasy try another one!';
+
+  _errorMessage = '💥We could not find that recipe. Please try another one!';
   _message = '';
 
   addHandlerRender(handler) {
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
+    /*
+    Code above is same as we had 2 lines of code belowe:
+    window.addEventListener('hashchange', controlRecipes);
+    window.addEventListener('load', controlRecipes);
+    */
+    /*
+    Lesson 239
+    Event Handling in MVC: Publisher - Subscriber Pattern
+    Code that knows when to react: PUBLISHER (located at View.js file),
+    Code that wants to react: SUBSCRIBER (located at Controller.js file),
+    SUBSCRIBE to publisher by passing in the sucscriber function.
+    
+    controlRecipes will be passed ionto addHandlerRender when program starts,
+    addHandlerRender listens for events(addEventListener), and uses controRecipes as callback function.
+    
+    Simply explaind:
+    This is all about control -> function A is calling function B,
+    -> function A is reciving function B as an input in order to call that input function
+    */
   }
-
-  addHandlerUpdateServings(handler) {
+  addHandlerRenderUpdateServings(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--update-servings');
       if (!btn) return;
-      const { updateTo } = btn.dataset;
-      if (+updateTo > 0) handler(+updateTo);
+
+      const updateTo = +btn.dataset.updateTo; //if data set contains additional dash like data-update-to it needs to be written as btn.dataset.updateTo
+      if (updateTo > 0) handler(updateTo);
     });
   }
   addHandlerAddBookmark(handler) {
@@ -25,6 +45,7 @@ class RecipeView extends View {
       handler();
     });
   }
+
   _generateMarkup() {
     return `
   <figure class="recipe__fig">
@@ -133,3 +154,6 @@ class RecipeView extends View {
   }
 }
 export default new RecipeView();
+/*
+Creating new class and exporting it for each file --> if we don't create a new class and exported we will need to export class, and create a new object out of that class, basiclly to create a new object 
+*/
